@@ -7,14 +7,33 @@ pool:
 steps:
 
 - task: AzureCLI@2
-  displayName: 'Terraform Run'
+  displayName: 'Azure Login Test'
   inputs:
     azureSubscription: 'azure-sp-conn'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      terraform version
-      terraform init
-      terraform validate
-      terraform plan
-      terraform apply -auto-approve
+      az account show
+
+- script: |
+    wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip
+    unzip terraform_1.12.2_linux_amd64.zip
+    sudo mv terraform /usr/local/bin/
+    terraform version
+  displayName: 'Install Terraform'
+
+- script: |
+    terraform init
+  displayName: 'Terraform Init'
+
+- script: |
+    terraform validate
+  displayName: 'Terraform Validate'
+
+- script: |
+    terraform plan
+  displayName: 'Terraform Plan'
+
+- script: |
+    terraform apply -auto-approve
+  displayName: 'Terraform Apply'
