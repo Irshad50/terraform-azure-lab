@@ -5,6 +5,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- task: AzureCLI@2
+  displayName: 'Azure Login Test'
+  inputs:
+    azureSubscription: 'azure-sp-conn'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az account show
+
 - script: |
     wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip
     unzip terraform_1.12.2_linux_amd64.zip
