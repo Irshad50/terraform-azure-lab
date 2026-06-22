@@ -7,13 +7,14 @@ pool:
 steps:
 
 - task: AzureCLI@2
-  displayName: 'Terraform Init & Apply RG'
+  displayName: 'Terraform Run'
   inputs:
     azureSubscription: 'azure-sp-conn'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      terraform version
       terraform init
       terraform validate
-      terraform plan -out=tfplan
-      terraform apply -auto-approve tfplan
+      terraform plan
+      terraform apply -auto-approve
